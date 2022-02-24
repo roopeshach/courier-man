@@ -1,0 +1,105 @@
+{% include 'User/base.html' %}
+
+{% load crispy_forms_tags %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/couriers"> All Couriers</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Add Courier</li>
+    </ol>
+  </nav>
+  </div>    
+  </nav>
+
+
+<section class="vh-100" style="background-color: #f5f2f0;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex   h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                       
+                        <div class="col-md-12  d-flex ">
+                            <div class="card-body  text-black">
+
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <!--Set user from request.user in input-->
+                                    <input type="hidden" name="user" value="{{request.user.id}}">
+                                    <div class="form-row">
+                                        <div id="div_id_description" class="form-group mr-3 ml-3"> <label for="id_description"
+                                            class=" requiredField">
+                                            Description<span class="asteriskField">*</span> </label>
+                                        <div> <textarea name="description" cols="40" rows="4"
+                                                class="textarea form-control" required id="id_description">
+                                            </textarea> </div>
+                                    </div>
+                                    <div id="div_id_recipent_name" class="form-group mr-3 ml-3"> <label for="id_recipent_name"
+                                            class=" requiredField">
+                                            Recipent name<span class="asteriskField">*</span> </label>
+                                        <div> <input type="text" name="recipent_name" maxlength="100"
+                                                class="textinput textInput form-control" required id="id_recipent_name">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                   <div class="form-row">
+                                    <div id="div_id_phone" class="form-group mr-3 ml-3"> <label for="id_phone"
+                                        class=" requiredField">
+                                        Phone<span class="asteriskField">*</span> </label>
+                                    <div> <input type="text" name="phone" maxlength="100"
+                                            class="textinput textInput form-control" required id="id_phone"> </div>
+                                </div>
+                                
+                                <div id="div_id_delivery_time" class="form-group mr-3 ml-3"> <label for="id_delivery_time"
+                                        class=" requiredField">
+                                        Delivery time<span class="asteriskField">*</span> </label>
+                                    <div> <input type="date" name="delivery_time" class="datetimeinput form-control"
+                                            required id="id_delivery_time"> </div>
+                                </div>
+                                   </div>
+                                    <div class="form-row">
+                                        <div id="div_id_delivery_address" class="form-group mr-3 ml-3"> <label
+                                            for="id_delivery_address" class=" requiredField">
+                                            Delivery address<span class="asteriskField">*</span> </label>
+                                        <div> <input type="text" name="delivery_address" maxlength="100"
+                                                class="textinput textInput form-control" required
+                                                id="id_delivery_address"> </div>
+                                    </div>
+                                    <div id="div_id_status" class="form-group mr-3 ml-3"> <label for="id_status"
+                                        class=" requiredField">
+                                        Status<span class="asteriskField">*</span> </label>
+                                    <div> 
+                                    <select name="status"  class="form-control"  required id="id_status">
+                                        <option value=""> --Select--</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                      </div>
+                                </div>
+                                    </div>
+                                    <div id="div_id_notes" class="form-group mr-3 ml-3"> <label for="id_notes"
+                                            class=" requiredField">
+                                            Notes<span class="asteriskField">*</span> </label>
+                                        <div> <textarea name="notes" cols="40" rows="5" class="textarea form-control"
+                                                required id="id_notes">
+                                                    </textarea> </div>
+                                    </div>
+
+
+                                    <input type="submit" class="btn btn-success px-3 me-2" value="Submit">
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'User/footer.html' %}

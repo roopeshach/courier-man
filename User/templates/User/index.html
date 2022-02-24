@@ -1,0 +1,127 @@
+{% include 'User/base.html' %}
+
+
+<section class="mb-5" style="background-color: #f5f2f0;">
+    <div class="container  py-3">
+        <div class="row d-flex  ">
+            <div class="col-md-12 col-xl-12">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                       
+                        <div class="col-md-12  d-flex ">
+                            <div class="card-body  text-black">
+                                <h2 class="text-center text-primary">Courier Management System</h2>
+                                
+                                <!--Cards for total users , couriers -->
+                              
+                                    <div class="row">
+                                        <div class="col-xl-12 col-md-12 mb-4">
+                                            <div class="card">
+                                              <div class="card-body">
+                                                <div class="d-flex justify-content-between p-md-1">
+                                                  <div class="d-flex flex-row">
+                                                    
+                                                    <div>
+                                                      <h4>Search Courier by any detail in Courier Data</h4>
+                                                      
+                                                      <div class="form-outline">
+                                                        <input type="text" id="search_text" class="form-control" name="search_query"/>
+                                                        <label class="form-label" for="search_text">Search</label>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="align-self-center">
+                                                   <button  class="btn" onclick="searchData()"> <i class="far fa-search text-primary fa-3x"></i></button>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+  
+                                        <div class="col-xl-12 col-md-12 mb-4">
+                                          <div class="card">
+                                            <div class="card-body">
+                                              <div class="d-flex justify-content-between p-md-1">
+                                                <div class="d-flex flex-row">
+                                                  <div class="align-self-center">
+                                                    <h2 class="h1 mb-0 me-4">{{users_count}}</h2>
+                                                  </div>
+                                                  <div>
+                                                    <h4>Total Users</h4>
+                                                    <p class="mb-0">Staffs and Users </p>
+                                                  </div>
+                                                </div>
+                                                <div class="align-self-center">
+                                                  <i class="far fa-user text-danger fa-3x"></i>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="col-xl-12 col-md-12 mb-4">
+                                            <div class="card">
+                                              <div class="card-body">
+                                                <div class="d-flex justify-content-between p-md-1">
+                                                  <div class="d-flex flex-row">
+                                                    <div class="align-self-center">
+                                                      <h2 class="h1 mb-0 me-4">{{courier_count}}</h2>
+                                                    </div>
+                                                    <div>
+                                                      <h4>Total Couriers</h4>
+                                                      <p class="mb-0">Delivery Orders and Couriers Till Now</p>
+                                                    </div>
+                                                  </div>
+                                                  <div class="align-self-center">
+                                                    <i class="fa fa-box-open text-danger fa-3x"></i>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div class="col-xl-12 col-md-12 mb-4">
+                                            <div class="card">
+                                              <div class="card-body">
+                                                <div class="d-flex justify-content-between p-md-1">
+                                                  <div class="d-flex flex-row">
+                                                    <div class="align-self-center">
+                                                      <h2 class="h1 mb-0 me-4">{{pending_couriers}}</h2>
+                                                    </div>
+                                                    <div>
+                                                      <h4>Pending Couriers</h4>
+                                                      <p class="mb-0">Pending Couriers that need to be seen.</p>
+                                                    </div>
+                                                  </div>
+                                                  <div class="align-self-center">
+                                                    <i class="fa fa-box text-danger fa-3x"></i>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+function searchData(){
+    const search_value = document.getElementById('search_text').value;
+
+    window.location.href = '/search/'+search_value
+
+}
+</script>
+
+
+
+{% include 'User/footer.html' %}
