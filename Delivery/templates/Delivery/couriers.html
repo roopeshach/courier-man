@@ -50,7 +50,9 @@
                                             <td>{{courier.notes}}</td>
                                             <td>
                                                 <a href="/update-courier/{{courier.id}}" class="btn btn-primary">Edit</a>
+                                                {% if user.is_superuser %}
                                                 <a href="/delete-courier/{{courier.id}}" class="btn btn-danger">Delete</a>
+                                                {% else %}{% endif %}
                                             </td>
                                             <td>
                                                 <a href="/courier-detail/{{courier.id}}" class="btn btn-primary">Details</a>

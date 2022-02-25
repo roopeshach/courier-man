@@ -26,6 +26,7 @@
 
                                 <form method="POST">
                                     {% csrf_token %}
+                                    <input type="hidden" name="user" value="{{request.user.id}}">
 
                                     <div class="form-row">
                                         <div id="div_id_description" class="form-group mr-3 ml-3"> <label for="id_description"
@@ -54,12 +55,14 @@
                                             class="textinput textInput form-control" required id="id_phone" value="{{courier.phone}}"> </div>
                                 </div>
                                 
+                                {% if user.is_superuser %}
                                 <div id="div_id_delivery_time" class="form-group mr-3 ml-3"> <label for="id_delivery_time"
-                                        class=" requiredField">
-                                        Delivery time<span class="asteriskField">*</span> </label>
-                                    <div> <input type="date" name="delivery_time" class="datetimeinput form-control"
-                                            required id="id_delivery_time" value="{{courier.delivery_time}}"> </div>
-                                </div>
+                                    class=" requiredField">
+                                    Delivery time<span class="asteriskField">*</span> </label>
+                                <div> <input type="date" name="delivery_time" class="datetimeinput form-control"
+                                        required id="id_delivery_time" value="{{courier.delivery_time}}"> </div>
+                            </div>
+                                {% else %}{% endif %}
                                    </div>
                                     <div class="form-row">
                                         <div id="div_id_delivery_address" class="form-group mr-3 ml-3"> <label
@@ -69,6 +72,7 @@
                                                 class="textinput textInput form-control" required
                                                 id="id_delivery_address" value="{{courier.delivery_address}}"> </div>
                                     </div>
+                                    {% if user.is_superuser %}
                                     <div id="div_id_status" class="form-group mr-3 ml-3"> <label for="id_status"
                                         class=" requiredField">
                                         Status<span class="asteriskField">*</span> </label>
@@ -81,6 +85,8 @@
                                         </select>
                                     </div>
                                 </div>
+                                    {% else %}{% endif %}
+                               
                                     </div>
                                     <div id="div_id_notes" class="form-group mr-3 ml-3"> <label for="id_notes"
                                             class=" requiredField">

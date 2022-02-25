@@ -1,11 +1,26 @@
 from django.shortcuts import render, redirect
-from .models import Courier
-from .forms import CourierForm
+from Delivery.models import Courier
+from Delivery.forms import CourierForm
 from django.contrib.auth.mixins import LoginRequiredMixin  , UserPassesTestMixin
 from django.views.generic.edit import UpdateView , CreateView
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 # Create your views here.
+
+def index(request):
+    recent_couriers = Courier.objects.order_by('-created_at').filter(user=request.user)[:3]
+    courier_count = Courier.objects.filter(user=request.user).count()
+    pending_couriers = Courier.objects.filter(user=request.user).filter(status='Pending').count()
+    delivered_couriers = Courier.objects.filter(user=request.user).filter(status='Delivered').count()
+    context = {
+        'recent_couriers': recent_couriers,
+        'courier_count': courier_count,
+        'pending_couriers': pending_couriers,
+        'delivered_couriers': delivered_couriers,
+
+    }
+    return render(request, 'Customer/index.html', context)
+
 #listview for courier
 class CourierListView(LoginRequiredMixin , ListView):
     model = Courier
@@ -13,15 +28,8 @@ class CourierListView(LoginRequiredMixin , ListView):
     context_object_name = 'couriers'
     ordering = ['-created_at']
     def get_queryset(self):
-        return Courier.objects.all()
+        return Courier.objects.filter(user=self.request.user)
 
-#detailview for courier
-class CourierDetailView(LoginRequiredMixin , DetailView):
-    model = Courier
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
 
 
 class  CourierView ( LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -37,7 +45,7 @@ class  CourierView ( LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context = {
             'couriers': couriers,
         }
-        return render(request, 'Delivery/courier.html', context)
+        return render(request, 'Customer/courier.html', context)
     
     def post(self, request):
         courier_form = CourierForm(request.POST , request.FILES)
@@ -47,25 +55,12 @@ class  CourierView ( LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         if courier_form.is_valid():
             courier_form.save()
-            return redirect('Delivery:courier')
+            return redirect('Customer:courier')
         else:
             print(courier_form.errors)
-            return render(request, 'Delivery/couriers.html', context)
+            return render(request, 'Customer/couriers.html', context)
   
         
-        return redirect('Delivery:courier')
+        return redirect('Customer:courier')
 
-def delete_courier(request , id):
-    Courier.objects.get(id=id).delete()
-    render(request , 'Delivery/courier.html' , {'response' : "Courier deleted successfully"})
-    return redirect('Delivery:couriers')
 
-class UpdateCourier( UpdateView):
-
-    def test_func(self):
-        login_url  = 'login/'
-        return(self.request.user)
-    
-    model = Courier
-
-    fields = ('__all__')

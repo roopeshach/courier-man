@@ -1,4 +1,3 @@
-from multiprocessing.connection import deliver_challenge
 from django.db import models
 from django.shortcuts import reverse
 # Create your models here.
@@ -9,10 +8,10 @@ class Courier(models.Model):
     description = models.TextField()
     recipent_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
-    delivery_time = models.DateTimeField()
+    delivery_time = models.DateTimeField(blank=True, null=True)
     delivery_address = models.CharField(max_length=100)
     notes = models.TextField()
-    status = models.CharField(max_length=100, default="Pending")
+    status = models.CharField(max_length=100, default="Pending", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):

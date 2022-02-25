@@ -8,14 +8,18 @@ from Delivery.models import Courier
 
 def index(request):
     if request.user.is_authenticated:
+        recent_couriers = Courier.objects.all().order_by('-id')[:5]
         courier_count = Courier.objects.all().count()
         users_count = User.objects.all().count()
         pending_couriers = Courier.objects.filter(status='Pending').count()
+        delivered_couriers = Courier.objects.filter(status='Delivered').count()
 
         context = {
             'courier_count': courier_count,
             'users_count': users_count,
             'pending_couriers': pending_couriers,
+            'delivered_couriers': delivered_couriers,
+            'recent_couriers': recent_couriers,
         }
         return render(request, 'User/index.html', context)
 
@@ -90,5 +94,46 @@ def logout_user(request):
     #add user log
     logout(request)
     return redirect('User:login')
+
+#users list
+def users_list(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        users = User.objects.all()
+        #get courier count of every users and append to users
+        for user in users:
+            user.courier_count = Courier.objects.filter(user=user).count()
+
+        context = {
+            'users': users,
+        }
+        return render(request, 'User/users.html', context)
+    else:
+        return redirect('User:login')
+
+#toggle user active status
+def toggle_user_active(request, id):
+    user = User.objects.get(id=id)
+    if user.is_active:
+        user.is_active = False
+    else:
+        user.is_active = True
+    user.save()
+    return redirect('User:users')
+
+#toggle user admin status
+def toggle_user_admin(request, id):
+    user = User.objects.get(id=id)
+    if user.is_superuser:
+        user.is_superuser = False
+    else:
+        user.is_superuser = True
+    user.save()
+    return redirect('User:users')
+
+#delete user
+def delete_user(request, id):
+    user = User.objects.get(id=id)
+    user.delete()
+    return redirect('User:users')
 
         

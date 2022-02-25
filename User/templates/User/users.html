@@ -1,0 +1,87 @@
+{% include 'User/base.html' %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page"> Users</li>
+    </ol>
+  </nav>
+  </div>    
+  </nav>
+
+
+
+<section class="vh-100" style="background-color: #f5f2f0;">
+    <div class=" mr-3 ml-3 py-3">
+        <div class="row d-flex  ">
+            <div class="col-md-12 col-xl-12">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                       
+                        <div class="col-md-12  d-flex ">
+                            <div class="card-body  text-black">
+                                <h2 class="text-center text-primary">Manage Users</h2>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th> ID </th>
+                                        <th> Userame </th>
+                                        <th> Email </th>
+                                        <th> Active </th>
+                                        <th> Staff </th>
+                                        <th> Couriers Added </th>
+                                        <th> Action </th>
+                                        
+                                        
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                        <tr>
+                                            <td> {{ user.id }} </td>
+                                            <td> {{ user.username }} </td>
+                                            <td> {{ user.email }} </td>
+                                            <td> {% if user.is_active == True%}
+                                                <span class="badge badge-success"> Active </span>
+                                                {% else %}
+                                                <span class="badge badge-danger"> Inactive </span>
+                                                {% endif %} </td>
+                                            <td> 
+                                                {% if user.is_superuser == True%}
+                                                <span class="badge badge-success"> Staff </span>
+                                                {% else %}
+                                                <span class="badge badge-danger"> User </span>                                                
+                                                {% endif %}
+                                            
+                                            </td>
+                                            <td>                                            
+                                                {% if user.courier_count > 0 %}
+                                                <span class="badge badge-success"> {{ user.courier_count }} </span>
+                                                {% else %}
+                                                <span class="badge badge-danger"> 0 </span>
+                                                {% endif %}
+                                            <td>
+                                                <a href="/toggle-user-active/{{user.id}}" class="btn btn-primary">Change Active</a>
+                                                <a href="/toggle-user-admin/{{user.id}}" class="btn btn-danger">Switch Admin</a>
+                                                {% if request.user.id == user.id %}
+                                                <span class="badge badge-danger"> You cannot delete yourself </span>
+                                                {% else %}
+                                                <a href="/delete-user/{{user.id}}" class="btn btn-danger">Delete</a>
+                                                {% endif %}
+                                            </td>
+                                           
+                                        </tr>
+                                        {% endfor %}
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% include 'User/footer.html' %}

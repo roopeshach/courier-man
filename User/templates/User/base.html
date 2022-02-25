@@ -47,7 +47,11 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
          {% if user.is_authenticated %}
          <li class="nav-item">
-          <a class="nav-link text-primary" href="/">Dashboard</a>
+          <a class="nav-link text-primary" href="{% if user.is_superuser %}
+          /
+          {% else %}
+          /customer
+         {% endif %}">Dashboard</a>
 
         </li>
 
@@ -55,11 +59,22 @@
           <a class="nav-link text-primary" href="/courier">Add Courier </a>  
         </li>
         <li class="nav-item">
-          <a class="nav-link text-primary" href="/couriers">Manage Courier </a>
+          <a class="nav-link text-primary" href="{% if user.is_superuser %}
+          /couriers
+          {% else %}
+          /customer-couriers
+         {% endif %}">Manage Courier </a>
         </li>
          {% else %}
           
          {% endif %}
+
+         {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link text-primary" href="/users">Manage Users</a>
+          </li>
+
+         {% else %}{% endif %}
         </ul>
         <!-- Left links -->
   
@@ -89,7 +104,9 @@
           <button type="button" class="btn btn-danger ml-2" data-mdb-toggle="modal" data-mdb-target="#logoutModal">
             Logout
           </button>
-          {% else %}{% endif %}
+          {% else %}
+          
+          {% endif %}
         </div>
       </div>
       <!-- Collapsible wrapper -->

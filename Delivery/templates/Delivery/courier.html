@@ -18,12 +18,14 @@
     <div class="container py-5 h-100">
         <div class="row d-flex   h-100">
             <div class="col col-xl-10">
+                
                 <div class="card" style="border-radius: 1rem;">
                     <div class="row g-0">
                        
                         <div class="col-md-12  d-flex ">
                             <div class="card-body  text-black">
-
+                                <h2 class="text-primary text-center">  Add New Courier </h2>  
+                                <hr>
                                 <form method="POST">
                                     {% csrf_token %}
                                     <!--Set user from request.user in input-->
@@ -33,14 +35,16 @@
                                             class=" requiredField">
                                             Description<span class="asteriskField">*</span> </label>
                                         <div> <textarea name="description" cols="40" rows="4"
-                                                class="textarea form-control" required id="id_description">
+                                            class="textarea form-control" required id="id_description">
                                             </textarea> </div>
                                     </div>
                                     <div id="div_id_recipent_name" class="form-group mr-3 ml-3"> <label for="id_recipent_name"
                                             class=" requiredField">
                                             Recipent name<span class="asteriskField">*</span> </label>
-                                        <div> <input type="text" name="recipent_name" maxlength="100"
-                                                class="textinput textInput form-control" required id="id_recipent_name">
+                                        <div> <textarea  name="recipent_name" 
+                                            cols="40" rows="4"
+                                            class="textarea form-control"required id="id_recipent_name">
+                                            </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -52,22 +56,27 @@
                                     <div> <input type="text" name="phone" maxlength="100"
                                             class="textinput textInput form-control" required id="id_phone"> </div>
                                 </div>
+                                <div id="div_id_delivery_address" class="form-group mr-3 ml-3"> <label
+                                    for="id_delivery_address" class=" requiredField">
+                                    Delivery address<span class="asteriskField">*</span> </label>
+                                <div> <input type="text" name="delivery_address" maxlength="100"
+                                        class="textinput textInput form-control" required
+                                        id="id_delivery_address"> </div>
+                            </div>
                                 
-                                <div id="div_id_delivery_time" class="form-group mr-3 ml-3"> <label for="id_delivery_time"
-                                        class=" requiredField">
-                                        Delivery time<span class="asteriskField">*</span> </label>
-                                    <div> <input type="date" name="delivery_time" class="datetimeinput form-control"
-                                            required id="id_delivery_time"> </div>
-                                </div>
+                              
                                    </div>
                                     <div class="form-row">
-                                        <div id="div_id_delivery_address" class="form-group mr-3 ml-3"> <label
-                                            for="id_delivery_address" class=" requiredField">
-                                            Delivery address<span class="asteriskField">*</span> </label>
-                                        <div> <input type="text" name="delivery_address" maxlength="100"
-                                                class="textinput textInput form-control" required
-                                                id="id_delivery_address"> </div>
-                                    </div>
+                                        {% if user.is_superuser %}
+                                        <div id="div_id_delivery_time" class="form-group mr-3 ml-3"> <label for="id_delivery_time"
+                                         class=" requiredField">
+                                         Delivery time<span class="asteriskField">*</span> </label>
+                                     <div> <input type="date" name="delivery_time" class="datetimeinput form-control"
+                                             required id="id_delivery_time"> </div>
+                                 </div>
+                                        {% else %}{% endif %}
+                                        
+                                    {% if user.is_superuser %}
                                     <div id="div_id_status" class="form-group mr-3 ml-3"> <label for="id_status"
                                         class=" requiredField">
                                         Status<span class="asteriskField">*</span> </label>
@@ -77,9 +86,11 @@
                                         <option value="Pending">Pending</option>
                                         <option value="Delivered">Delivered</option>
                                         <option value="Cancelled">Cancelled</option>
+                                        <option value="On Road"> On Road </options>
                                     </select>
                                       </div>
                                 </div>
+                                    {% else %}{% endif %}
                                     </div>
                                     <div id="div_id_notes" class="form-group mr-3 ml-3"> <label for="id_notes"
                                             class=" requiredField">
@@ -89,7 +100,7 @@
                                                     </textarea> </div>
                                     </div>
 
-
+                                    <hr>
                                     <input type="submit" class="btn btn-success px-3 me-2" value="Submit">
                                 </form>
 
