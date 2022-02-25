@@ -1,5 +1,7 @@
 {% include 'User/base.html' %}
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
 <nav aria-label="breadcrumb">
@@ -24,11 +26,13 @@
                         <div class="col-md-12  d-flex ">
                             <div class="card-body  text-black">
                                 <h2 class="text-center text-primary">Manage Courier</h2>
-                                <table class="table table-hover">
+                                <table class="table table-hover" id="Table">
                                     <thead>
                                         <th> ID </th>
                                         <th>Description</th>
                                         <th>Recipent name</th>
+                                        <th> Added By</th>
+                                        <th>Added At</th>
                                         <th>Phone</th>
                                         <th>Delivery Time</th>
                                         <th>Delivery Address</th>
@@ -43,10 +47,21 @@
                                             <td>{{courier.id}}</td>
                                             <td>{{courier.description}}</td>
                                             <td>{{courier.recipent_name}}</td>
+                                            <td>{{courier.user}}</td>
+                                            <td>{{courier.created_at}}</td>
                                             <td>{{courier.phone}}</td>
                                             <td>{{courier.delivery_time}}</td>
                                             <td>{{courier.delivery_address}}</td>
-                                            <td>{{courier.status}}</td>
+                                            <td>
+                                                {% if courier.status == "Pending" %}
+                                                <span class="badge badge-warning">{{courier.status}}</span>
+                                                {% elif courier.status == "Delivered" %}
+                                                <span class="badge badge-success">{{courier.status}}</span>
+                                                {% elif courier.status == "Cancelled" %}
+                                                <span class="badge badge-danger">{{courier.status}}</span>
+                                                {% else %}{{courier.status}}{% endif %}
+
+                                            </td>
                                             <td>{{courier.notes}}</td>
                                             <td>
                                                 <a href="/update-courier/{{courier.id}}" class="btn btn-primary">Edit</a>
@@ -70,5 +85,9 @@
     </div>
 </section>
 
-
+<script>
+    $(document).ready( function () {
+        $('#Table').DataTable();
+    } );
+</script>
 {% include 'User/footer.html' %}

@@ -94,12 +94,8 @@
               </button>
             </a>
           {% endif %}
-          <a
-            class="btn btn-dark px-3"
-            href="#"
-            role="button"
-            ><i class="fab fa-github"></i
-          ></a>
+          
+
           {% if user.is_authenticated %}
           <button type="button" class="btn btn-danger ml-2" data-mdb-toggle="modal" data-mdb-target="#logoutModal">
             Logout
@@ -107,6 +103,13 @@
           {% else %}
           
           {% endif %}
+
+
+          {% if user.is_superuser %}
+          <button type="button" class="btn btn-inherit me-3 ml-3">
+              You are Staff!!
+            </button>
+        {% else %}{% endif %}
         </div>
       </div>
       <!-- Collapsible wrapper -->
