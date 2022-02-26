@@ -75,7 +75,9 @@ def register_user(request):
 
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect('User:index')
+        if request.user.is_superuser:
+            return redirect('User:index')
+        return redirect('/customer')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
