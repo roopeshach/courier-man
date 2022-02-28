@@ -20,7 +20,7 @@
                                     <div class="row">
                                         
                                           <div class="col-xl-12 col-md-12 mb-4">
-                                            <div class="card">
+                                            <div class="card"  id="print">
                                               <div class="card-body">
                                                 <div class="d-flex justify-content-center p-md-1">
                                                   <div class="d-flex flex-row">
@@ -80,6 +80,8 @@
                                                 <div class="col-md-3">
                                                     <a href="/update-courier/{{courier.id}}" class="btn btn-danger btn-block ml-5 mt-2">Edit</a>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-inherit ml-5 mt-2"  onClick="printDiv()" > Print </button>
                                                
                                             </div>
                                         </div>   
@@ -95,7 +97,38 @@
         </div>
     </div>
 </section>
+<script>
+    function printDiv() {
+        var divContents = document.getElementById("print").innerHTML;
+        var a = window.open('', '', 'height=800, width=1000');
+        a.document.write('<html>');
+        a.document.write('<body >');
+        a.document.write('<h1 class="text-center text-primary">Courier Detail of: {{courier}} <h1>')
+        var links = ` <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title> Courier </title>
 
+        <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css"
+  rel="stylesheet"
+/>
+     `
+        a.document.write(links);
+        a.document.write(divContents);
+        a.document.write('</body></html>');
+        a.document.close();
+        a.print();
+    }
+</script>
 
 
 {% include 'User/footer.html' %}

@@ -75,6 +75,16 @@
           </li>
 
          {% else %}{% endif %}
+         {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link text-primary" href="/chat/{{user.id}}">Messages</a>
+          </li>
+
+         {% else %}
+         <li class="nav-item">
+          <a class="nav-link text-primary" href="/users-chat">Contact Us</a>
+        </li>
+         {% endif %}
         </ul>
         <!-- Left links -->
   

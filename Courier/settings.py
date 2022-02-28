@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'User',
     'Delivery',
     'Customer', 
+    'Chat',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -139,3 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "srmagic23@gmail.com"
+EMAIL_HOST_PASSWORD = 'Srmagic@255'
+EMAIL_USE_TLS = True

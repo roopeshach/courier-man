@@ -12,29 +12,27 @@
           <form method="POST">
               {% csrf_token %}
           
-            <h2> Sign in </h2>
+            <h2> Forgot Password?</h2>
             <!-- Email input -->
+    
+            Enter OTP sent in your email.
+
+            {% if success %}
+            {{success}}
+            {% endif %}
             <div class="form-outline mb-4">
+               
               <input type="text" id="form3Example3" class="form-control form-control-lg"
-                placeholder="Enter your username."  name="username"/>
-              <label class="form-label" for="form3Example3">Username</label>
-            </div>
-  
-            <!-- Password input -->
-            <div class="form-outline mb-3">
-              <input type="password" id="form3Example4" class="form-control form-control-lg"
-                placeholder="Enter password" name="password" />
-              <label class="form-label" for="form3Example4">Password</label>
+                placeholder="Enter OTP from your mail."  name="otp"/>
+              <label class="form-label" for="form3Example3">OTP</label>
             </div>
   
             
             <div class="text-center text-lg-start mt-4 pt-2">
               <input type="submit" class="btn btn-primary btn-lg"
-                style="padding-left: 2.5rem; padding-right: 2.5rem;" value="Login">
+                style="padding-left: 2.5rem; padding-right: 2.5rem;" value="Request">
               <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/register"
                   class="link-danger">Register</a></p>
-                  <p class="small fw-bold mt-2 pt-1 mb-0">Having problems with sign-in? <a href="/reset-password"
-                    class="link-warning">Forgot Password?</a></p>
             </div>
   
           </form>

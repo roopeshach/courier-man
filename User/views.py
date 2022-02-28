@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate , login , logout
 from django.db.models import Q
 from Delivery.models import Courier
 # Create your views here.
-
+from django.core.mail import send_mail
 def index(request):
     if request.user.is_authenticated:
         recent_couriers = Courier.objects.all().order_by('-id')[:5]
@@ -87,6 +87,11 @@ def login_user(request):
                 login(request, user)
                 #add user log
                 return redirect('/')
+            else:
+                context = {
+                    'error' : 'Invalid username or password',
+                }
+                return render(request, 'User/login.html', context)
         else:  
             return render(request, 'User/login.html')
     
@@ -138,4 +143,57 @@ def delete_user(request, id):
     user.delete()
     return redirect('User:users')
 
+import random
+from .models import OTP
+#reset user password by email verification
+def reset_user_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.get(email=email)
+        if user:
+            #create otp
+            value = ''.join(random.choice('0123456789') for i in range(6))
+            otp = OTP(user=user, otp=value)
+            otp.save()
+            #send otp to user email
+
+            send_mail(
+                'Password Reset',
+                'Your OTP is ' + value,
+                'rupeshacharya2017@gmail.com',
+                [user.email],
+                fail_silently=False,
+            )
+            context = {
+                'success' : 'Password reset link has been sent to your email.',
+            }
+        return redirect('User:verify-otp', user.id)
+    else:
+        return render(request, 'User/reset_password.html')
+            
         
+#verify otp and reset password
+def verify_otp(request, id):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        user = User.objects.get(id=id)
+        if OTP.objects.filter(user=user, otp=otp).exists():
+            return redirect('User:change-password', id)
+        else:
+            context = {
+                'error' : 'Invalid OTP',
+            }
+            return render(request, 'User/verify_otp.html', context)
+    else:
+        return render(request, 'User/verify_otp.html')
+
+#change password 
+def change_password(request, id):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user = User.objects.get(id=id)
+        user.set_password(password)
+        user.save()
+        return redirect('User:login')
+    else:
+        return render(request, 'User/change_password.html')
