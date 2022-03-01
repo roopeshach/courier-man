@@ -75,12 +75,12 @@
           </li>
 
          {% else %}{% endif %}
-         {% if user.is_superuser %}
+         {% if user.is_authenticated and user.is_superuser %}
           <li class="nav-item">
             <a class="nav-link text-primary" href="/chat/{{user.id}}">Messages</a>
           </li>
 
-         {% else %}
+         {% elif user.is_authenticated%}
          <li class="nav-item">
           <a class="nav-link text-primary" href="/users-chat">Contact Us</a>
         </li>
@@ -142,7 +142,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-        <a href="logout">
+        <a href="/logout">
           <button type="button" class="btn btn-danger">Logout</button>
         </a>
       </div>
